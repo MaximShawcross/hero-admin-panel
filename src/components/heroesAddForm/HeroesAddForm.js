@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
 import { useHttp } from "../../hooks/http.hook";
-import { useDispatch, useSelector } from "react-redux";
 import { heroesFetched, heroesFetching, heroesFetchingError } from "../../actions";
 
-
+import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,46 +17,28 @@ import { v4 as uuidv4 } from 'uuid';
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
 
-const HeroesAddForm = () => { 
-    const [options, setOptins] = useState( [] );
-    const [optionsLoading, setOptinsLoading] = useState(true);
-
+const HeroesAddForm = () => {  
+    const {heroes} = useSelector(state => state);
+    const {request} = useHttp();
     const dispatch = useDispatch();
-    const { request } = useHttp();
 
-    useEffect(() => {
-        request("http://localhost:3001/filters")
-            .then(item => setOptins(item))
-            .then(setOptinsLoading(false));
-    // eslint-disable-next-line
-    }, []);
-
-    // let loadedOptions = onOptionsLoading();
-
-    const renderOptions = (option) => {
-        if (optionsLoading === true) return <option >Подождите пару секунд...</option>
-        
-        else {
-            for(let i =0; i <5; i++) {
-                return <option value={option[i]}>{option[i]}</option>
-            }
-        }
-    }
-
-    const content = renderOptions(options);
 
     return (
         <Formik initialValues={{
-            id: 15,
+            id: '',
             name: '',
             description: '',
             element: ''
         }}
 
         onSubmit = { values => {
-            dispatch(heroesFetching());
             let char = JSON.stringify(values, null, 2);
-            request("http://localhost:3001/heroes", 'POST', char);
+            values.id = uuidv4();
+
+            dispatch(heroesFetching())
+            request( "http://localhost:3001/heroes", 'POST', char )
+                .then(() => dispatch(heroesFetched([...heroes, values])))
+                
         }}>
             <Form className="border p-4 shadow-lg rounded" >
                 <div className="mb-3">
@@ -91,13 +72,11 @@ const HeroesAddForm = () => {
                         id="element" 
                         name="element"
                         as = "select">
-                        {content}   
-                        
-                        {/* <option >Я владею элементом...</option>
+                        <option >Я владею элементом...</option>
                         <option value="fire">Огонь</option>
                         <option value="water">Вода</option>
                         <option value="wind">Ветер</option>
-                        <option value="earth">Земля</option> */}
+                        <option value="earth">Земля</option>
                     </Field>
                 </div>
 
