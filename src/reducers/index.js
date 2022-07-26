@@ -1,6 +1,6 @@
 const initialState = {
     heroes: [],
-    heroesLoadingStatus: 'idle',
+    heroesLoadingStatus: 'idle',        
     filters: [],
 }
 

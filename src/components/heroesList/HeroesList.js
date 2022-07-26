@@ -25,6 +25,7 @@ const HeroesList = () => {
         // eslint-disable-next-line
     }, []);
 
+
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
     } else if (heroesLoadingStatus === "error") {
@@ -37,7 +38,7 @@ const HeroesList = () => {
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} {...props}/>
+            return <HeroesListItem key={id} {...props} id = {id}/>
         })
     }
 

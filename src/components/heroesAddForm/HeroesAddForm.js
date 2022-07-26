@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 import { useHttp } from "../../hooks/http.hook";
 import { heroesFetched, heroesFetching, heroesFetchingError } from "../../actions";
@@ -38,7 +38,7 @@ const HeroesAddForm = () => {
             dispatch(heroesFetching())
             request( "http://localhost:3001/heroes", 'POST', char )
                 .then(() => dispatch(heroesFetched([...heroes, values])))
-                
+                .catch(() => dispatch(heroesFetchingError()));                
         }}>
             <Form className="border p-4 shadow-lg rounded" >
                 <div className="mb-3">
