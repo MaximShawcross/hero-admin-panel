@@ -1,4 +1,11 @@
+// import { useState, useEffect } from "react";
 
+import { useHttp } from "../../hooks/http.hook";
+import { heroesFetched, heroesFetching, heroesFetchingError } from "../../actions";
+
+import { useSelector, useDispatch } from "react-redux";
+import { Formik, Form, Field } from "formik";
+import { v4 as uuidv4 } from 'uuid';
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -10,48 +17,72 @@
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
 
-const HeroesAddForm = () => {
+const HeroesAddForm = () => {  
+    const {heroes} = useSelector(state => state);
+    const {request} = useHttp();
+    const dispatch = useDispatch();
+
+
     return (
-        <form className="border p-4 shadow-lg rounded">
-            <div className="mb-3">
-                <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
-                <input 
-                    required
-                    type="text" 
-                    name="name" 
-                    className="form-control" 
-                    id="name" 
-                    placeholder="Как меня зовут?"/>
-            </div>
+        <Formik initialValues={{
+            id: uuidv4(),
+            name: '',
+            description: '',
+            element: ''
+        }}
 
-            <div className="mb-3">
-                <label htmlFor="text" className="form-label fs-4">Описание</label>
-                <textarea
-                    required
-                    name="text" 
-                    className="form-control" 
-                    id="text" 
-                    placeholder="Что я умею?"
-                    style={{"height": '130px'}}/>
-            </div>
+        onSubmit = { values => {
+            let char = JSON.stringify(values, null, 2);
+            // values.id = uuidv4();
 
-            <div className="mb-3">
-                <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
-                <select 
-                    required
-                    className="form-select" 
-                    id="element" 
-                    name="element">
-                    <option >Я владею элементом...</option>
-                    <option value="fire">Огонь</option>
-                    <option value="water">Вода</option>
-                    <option value="wind">Ветер</option>
-                    <option value="earth">Земля</option>
-                </select>
-            </div>
+            dispatch(heroesFetching())
+            request( "http://localhost:3001/heroes", 'POST', char )
+                .then(() => dispatch(heroesFetched([...heroes, values])))
+                .catch(() => dispatch(heroesFetchingError()));                
+        }}>
+            <Form className="border p-4 shadow-lg rounded" >
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
+                    <Field 
+                        required
+                        type="text" 
+                        name="name" 
+                        className="form-control" 
+                        id="name" 
+                        placeholder="Как меня зовут?"/>
+                </div>
 
-            <button type="submit" className="btn btn-primary">Создать</button>
-        </form>
+                <div className="mb-3">
+                    <label htmlFor="text" className="form-label fs-4">Описание</label>
+                    <Field
+                        required
+                        name="description" 
+                        className="form-control" 
+                        id="description" 
+                        placeholder="Что я умею?"
+                        style={{"height": '130px'}}
+                        as = "textarea"/>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
+                    <Field 
+                        required
+                        className="form-select" 
+                        id="element" 
+                        name="element"
+                        as = "select">
+                        <option >Я владею элементом...</option>
+                        <option value="fire">Огонь</option>
+                        <option value="water">Вода</option>
+                        <option value="wind">Ветер</option>
+                        <option value="earth">Земля</option>
+                    </Field>
+                </div>
+
+                <button type="submit" className="btn btn-primary">Создать</button>
+            </Form>
+        </Formik>
     )
 }
 
