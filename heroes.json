@@ -7,55 +7,49 @@
       "element": "fire"
     },
     {
-      "id": "d45f80be-e7f3-4c29-99e5-5aef253a48c3",
-      "name": "lil pump",
-      "description": "d rose",
-      "element": "earth"
+      "id": 2,
+      "name": "Карен",
+      "description": "керить",
+      "element": ""
     },
     {
-      "id": "ae74d1ff-601f-4823-b5c2-2c48bce92f4e",
-      "name": "j cole ",
-      "description": "middle child",
+      "id": 3,
+      "name": "sdnfjsdj",
+      "description": "njfskr",
       "element": "water"
     },
     {
-      "id": "7f94e106-0885-4aea-99a9-2a068df6e4f5",
-      "name": "j cole dd",
-      "description": "middle child",
-      "element": "water"
-    },
-    {
-      "id": "96e64990-97c3-4047-94f1-fefaa4b67102",
-      "name": "j cole 123",
-      "description": "middle child",
-      "element": "earth"
+      "id": 4,
+      "name": "Jack",
+      "description": "Jack",
+      "element": "wind"
     }
   ],
-  "filters":[ 
+  "filters": [
     {
       "name": "Все",
       "value": "all",
-      "color": "btn btn-outline-dark" 
+      "color": "btn btn-outline-dark"
     },
     {
       "name": "Огонь",
       "value": "fire",
-      "color": "btn btn-danger" 
+      "color": "btn btn-danger"
     },
     {
       "name": "Вода",
       "value": "water",
-      "color": "btn btn-primary" 
+      "color": "btn btn-primary"
     },
     {
       "name": "Ветер",
       "value": "wind",
-      "color": "btn btn-success" 
+      "color": "btn btn-success"
     },
     {
       "name": "Земля",
       "value": "earth",
-      "color": "btn btn-secondary" 
+      "color": "btn btn-secondary"
     }
   ]
 }

@@ -1,29 +1,4 @@
-import {useHttp} from '../../hooks/http.hook'; 
-import { useSelector, useDispatch } from 'react-redux';
-
-import { heroesFetchingError, heroesFetching, heroesFetched, } from '../../actions';
-import { useState } from 'react';
-
-const HeroesListItem = ({name, description, element, id}) => {
-    const {heroes} = useSelector(state => state);
-
-    const dispatch = useDispatch();
-    const {request} = useHttp();
-
-    const removeItem = () => {
-        const url = 'http://localhost:3001/heroes';
-        // dispatch(heroesFetching());
-
-        request(`${url}/${id}`, 'DELETE')
-            .then(dispatch(heroesFetched()))
-    }   
-
-    // const onDelete = (id) => {
-    //     dispatch(heroesFetching())
-
-    //     request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-    //     .then(() => dispatch(heroesFetched()))
-    // }
+const HeroesListItem = ({name, description, element, onDelete}) => {
 
     let elementClassName;
 
@@ -57,7 +32,7 @@ const HeroesListItem = ({name, description, element, id}) => {
                 <p className="card-text">{description}</p>
             </div>
             <span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
-                <button type="button" className="btn-close btn-close" aria-label="Close" onClick = {removeItem}></button>
+                <button type="button" className="btn-close btn-close" aria-label="Close" onClick = {onDelete}></button>
             </span>
         </li>
     )
