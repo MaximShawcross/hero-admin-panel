@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,7 +6,7 @@ import { filtersFetched, filtersFetching, activeFilterChanged } from "../../acti
 import {useHttp} from '../../hooks/http.hook';
 
 const HeroesFilters = () => {   
-    const {filters, filtersLoadingStatus, filteredHeroes} = useSelector(state => state);
+    const {filters, filtersFetchingError} = useSelector(state => state.filters);
 
     const dispatch = useDispatch();
     const {request} = useHttp();
@@ -15,7 +15,7 @@ const HeroesFilters = () => {
         dispatch(filtersFetching());
         request("http://localhost:3001/filters") 
             .then(data => dispatch(filtersFetched(data)))
-            .catch((er) => console.error(er));
+            .catch(() => dispatch(filtersFetchingError()));
         // eslint-disable-next-line
     }, []);
 

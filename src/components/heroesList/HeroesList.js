@@ -6,13 +6,17 @@ import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
-// Задача для этого компонента:
-// При клике на "крестик" идет удаление персонажа из общего состояния
-// Усложненная задача:
-// Удаление идет и с json файла при помощи метода DELETE
-
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus, filteredHeroes} = useSelector(state => state);
+    const filteredHeroes = useSelector(state => {
+        if (state.filters.activeFilter === 'all') {
+            return state.heroes.heroes;
+        } else {
+            return state.heroes.heroes.filter(item => item.element === state.filters.activeFilter);
+        }
+
+    })    
+    
+    const {heroesLoadingStatus} = useSelector(state => state.filters.filtersLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -27,11 +31,11 @@ const HeroesList = () => {
 
     const onDelete = useCallback((id) => {
         const url = 'http://localhost:3001/heroes'
-        request(`${url}/${id}`, 'DELETED')
+        request(`${url}/${id}`, 'DELETE')
             .then(data => console.log(data, 'deleted'))
             .then(dispatch(heroDeleted(id)))
             .catch(error => console.error(error));
-
+        // eslint-disable-next-line
     }, [request]);
 
 

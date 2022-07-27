@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 // данных из фильтров
 
 const HeroesAddForm = () => {  
-    const {heroes} = useSelector(state => state);
+    const {heroes} = useSelector(state => state.heroes);
     const {request} = useHttp();
     const dispatch = useDispatch();
 
