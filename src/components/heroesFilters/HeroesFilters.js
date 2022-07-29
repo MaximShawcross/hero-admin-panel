@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
 
-import { fetchFilters, activeFilterChanged } from "../../actions";
+import { activeFilterChanged } from "../heroesFilters/filtersSlice";
+import { fetchFilters } from "../../actions";
 import {useHttp} from '../../hooks/http.hook';
 
 const HeroesFilters = () => {   
