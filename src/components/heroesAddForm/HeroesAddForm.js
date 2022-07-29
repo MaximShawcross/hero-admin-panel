@@ -1,17 +1,21 @@
-// import { useState, useEffect } from "react";
-
-import { useHttp } from "../../hooks/http.hook";
-import { heroesFetched, heroesFetching, heroesFetchingError } from "../../components/heroesList/heroesSlice";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import { v4 as uuidv4 } from 'uuid';
 
+import { useHttp } from "../../hooks/http.hook";
+import { heroCreated } from "../heroesList/heroesSlice";
+
+
 const HeroesAddForm = () => {  
-    const {heroes} = useSelector(state => state.heroes);
     const {request} = useHttp();
     const dispatch = useDispatch();
 
+    const heroFetched = (hero) => {
+        request('http://localhost:3001/heroes', "POST", JSON.stringify(hero))
+            .then(data => console.log(data, "успешно"))
+            .then(dispatch(heroCreated(hero)))
+            .catch(err => console.error(err));
+    }
 
     return (
         <Formik initialValues={{
@@ -20,15 +24,8 @@ const HeroesAddForm = () => {
             description: '',
             element: ''
         }}
-
-        onSubmit = { values => {
-            let char = JSON.stringify(values, null, 2);
-            // values.id = uuidv4();
-
-            dispatch(heroesFetching())
-            request( "http://localhost:3001/heroes", 'POST', char )
-                .then(() => dispatch(heroesFetched([...heroes, values])))
-                .catch(() => dispatch(heroesFetchingError()));                
+        onSubmit = { values => {  
+            heroFetched(values)       
         }}>
             <Form className="border p-4 shadow-lg rounded" >
                 <div className="mb-3">
