@@ -19,12 +19,6 @@
       "element": "earth"
     },
     {
-      "id": "7581ffdc-2085-459c-a67e-f6a500e7c32e",
-      "name": "sfd",
-      "description": "fd",
-      "element": "earth"
-    },
-    {
       "id": "876b6955-9447-4301-a309-4d83b0d567d5",
       "name": "Родион ",
       "description": "d",
@@ -35,6 +29,12 @@
       "name": "ee",
       "description": "e",
       "element": "wind"
+    },
+    {
+      "id": "9be3026e-28e8-47c3-a6f7-f574e4030723",
+      "name": ",d",
+      "description": "al",
+      "element": "earth"
     }
   ],
   "filters": [

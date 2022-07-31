@@ -1,11 +1,13 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 
 import { useHttp } from "../../hooks/http.hook";
 
-const initialState = {
-    heroes: [],
-    heroesLoadingStatus: 'idle'
-}
+const heroAdapter = createEntityAdapter() //    main entity
+
+const initialState = heroAdapter.getInitialState({ //   state of main entity
+        heroesLoadingStatus: 'idle' 
+
+})
 
 export const fetchHeroes = createAsyncThunk(
     'heroes/fetchHeroes',
@@ -20,10 +22,10 @@ const heroesSlice = createSlice({
     initialState, 
     reducers: {
         heroDeleted: (state, action) => {
-            state.heroes = state.heroes.filter(item => item.id !== action.payload);
+            heroAdapter.removeOne(state, action.payload);
         },
         heroCreated: (state, action) => {
-            state.heroes.push(action.payload);
+            heroAdapter.addOne(state, action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -33,7 +35,7 @@ const heroesSlice = createSlice({
             }) 
             .addCase(fetchHeroes.fulfilled, (state, action) => {
                 state.heroesLoadingStatus = 'idle';
-                state.heroes = action.payload;
+                heroAdapter.setAll(state, action.payload) // here was state.heroes = action.payload
             })
             .addCase(fetchHeroes.rejected, state => {
                 state.heroesLoadingStatus = 'error'
@@ -42,9 +44,25 @@ const heroesSlice = createSlice({
     }
 });
 
-const {actions, reducer} = heroesSlice;
+const { actions, reducer } = heroesSlice;
 
 export default reducer;
+
+export const { selectAll } = heroAdapter.getSelectors(state => state.heroes)
+
+export const filteredHeroesSelector = createSelector(
+    selectAll,
+    (state) => state.filters.activeFilter, 
+    (heroes, filter) => { //first fucntion result and second function result
+        if (filter === 'all') {
+            console.log('render');
+            return heroes;
+        } else {
+            return heroes.filter(item => item.element === filter);
+        }
+    }
+);
+
 export const {
     heroesFetching,
     heroesFetched,
