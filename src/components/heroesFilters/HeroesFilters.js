@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
 
-import { activeFilterChanged } from "../heroesFilters/filtersSlice";
-import { fetchFilters } from "./filtersSlice";
+import { fetchFilters, activeFilterChanged, selectAll } from "./filtersSlice";
 
 const HeroesFilters = () => {   
-    const {filters} = useSelector(state => state.filters);
+    const filters = useSelector(selectAll);
+    // const filters = selectAll(store.getState())
 
     const dispatch = useDispatch();
     useEffect(() => {

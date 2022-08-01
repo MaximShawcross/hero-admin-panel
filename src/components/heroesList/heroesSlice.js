@@ -2,12 +2,12 @@ import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } fr
 
 import { useHttp } from "../../hooks/http.hook";
 
-const heroAdapter = createEntityAdapter() //    main entity
+const heroAdapter = createEntityAdapter(); //    main entity
 
 const initialState = heroAdapter.getInitialState({ //   state of main entity
         heroesLoadingStatus: 'idle' 
 
-})
+});
 
 export const fetchHeroes = createAsyncThunk(
     'heroes/fetchHeroes',
@@ -15,7 +15,7 @@ export const fetchHeroes = createAsyncThunk(
         const {request}= useHttp()
         return request("http://localhost:3001/heroes")
     }
-)
+);
 
 const heroesSlice = createSlice({
     name: 'heroes', 
