@@ -1,52 +1,69 @@
 {
   "heroes": [
     {
-      "id": 1,
-      "name": "SMokpurp",
-      "description": "audi",
-      "element": "fire"
-    },
-    {
-      "id": 2,
-      "name": "Карен",
-      "description": "керить",
-      "element": ""
-    },
-    {
-      "id": 3,
-      "name": "sdnfjsdj",
-      "description": "njfskr",
+      "id": "7eab3a25-28ba-4662-9272-0acba4e9ab11",
+      "name": "AquaMan",
+      "description": "Aqua skills",
       "element": "water"
     },
     {
-      "id": 4,
-      "name": "Jack",
-      "description": "Jack",
+      "id": "f9d9b0c4-4429-4922-8e68-9ea9b90cab4b",
+      "name": "fire man",
+      "description": "fire skills",
+      "element": "fire"
+    },
+    {
+      "id": "fcf5b6e3-1a51-40df-8f39-3e0d88ae3f24",
+      "name": "sdf",
+      "description": "sdf",
+      "element": "earth"
+    },
+    {
+      "id": "876b6955-9447-4301-a309-4d83b0d567d5",
+      "name": "Родион ",
+      "description": "d",
       "element": "wind"
+    },
+    {
+      "id": "9be3026e-28e8-47c3-a6f7-f574e4030723",
+      "name": ",d",
+      "description": "al",
+      "element": "earth"
+    },
+    {
+      "id": "86636e4b-5130-4c5c-bdc1-9607cdac417d",
+      "name": "nfsmd",
+      "description": "l",
+      "element": "fire"
     }
   ],
   "filters": [
     {
+      "id": 1,
       "name": "Все",
       "value": "all",
       "color": "btn btn-outline-dark"
     },
     {
+      "id": 2,
       "name": "Огонь",
       "value": "fire",
       "color": "btn btn-danger"
     },
     {
+      "id": 3,
       "name": "Вода",
       "value": "water",
       "color": "btn btn-primary"
     },
     {
+      "id": 4,
       "name": "Ветер",
       "value": "wind",
       "color": "btn btn-success"
     },
     {
+      "id": 5,
       "name": "Земля",
       "value": "earth",
       "color": "btn btn-secondary"

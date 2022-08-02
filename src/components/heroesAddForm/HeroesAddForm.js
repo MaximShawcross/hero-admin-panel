@@ -1,27 +1,21 @@
-// import { useState, useEffect } from "react";
-
-import { useHttp } from "../../hooks/http.hook";
-import { heroesFetched, heroesFetching, heroesFetchingError } from "../../actions";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import { v4 as uuidv4 } from 'uuid';
 
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
+import { useHttp } from "../../hooks/http.hook";
+import { heroCreated } from "../heroesList/heroesSlice";
+
 
 const HeroesAddForm = () => {  
-    const {heroes} = useSelector(state => state);
     const {request} = useHttp();
     const dispatch = useDispatch();
 
+    const heroFetched = (hero) => {
+        request('http://localhost:3001/heroes', "POST", JSON.stringify(hero))
+            .then(data => console.log(data, "успешно"))
+            .then(dispatch(heroCreated(hero)))
+            .catch(err => console.error(err));
+    }
 
     return (
         <Formik initialValues={{
@@ -30,15 +24,8 @@ const HeroesAddForm = () => {
             description: '',
             element: ''
         }}
-
-        onSubmit = { values => {
-            let char = JSON.stringify(values, null, 2);
-            // values.id = uuidv4();
-
-            dispatch(heroesFetching())
-            request( "http://localhost:3001/heroes", 'POST', char )
-                .then(() => dispatch(heroesFetched([...heroes, values])))
-                .catch(() => dispatch(heroesFetchingError()));                
+        onSubmit = { values => {  
+            heroFetched(values)       
         }}>
             <Form className="border p-4 shadow-lg rounded" >
                 <div className="mb-3">

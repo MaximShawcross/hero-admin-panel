@@ -1,6 +1,24 @@
-import { createStore } from 'redux';
-import reducer from '../reducers';
+import { configureStore} from '@reduxjs/toolkit';
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+import filters from '../components/heroesFilters/filtersSlice';
+import heroes from '../components/heroesList/heroesSlice';
+
+const stringMiddleware = ({dispatch, getState}) => (next) => (action) => {
+    if(typeof action === 'string') {
+        return next({
+            type: action
+        })
+    }
+    return next(action);
+
+};
+
+const store = configureStore({
+    reducer: {heroes, filters},
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware),
+    devTools: process.env.NODE_ENV !== 'production',
+})
+ 
+export {filters};
 
 export default store;
